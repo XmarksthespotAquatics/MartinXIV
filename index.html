@@ -44,11 +44,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
 /* FAB */
 .fab-wrap{position:fixed;bottom:32px;right:32px;z-index:99;display:flex;flex-direction:column;align-items:flex-end;gap:0}
-.fab{width:52px;height:52px;border-radius:50%;background:var(--g2);border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(245,200,66,.4);transition:all .3s cubic-bezier(.23,1,.32,1);position:relative}
+.fab{width:70px;height:70px;border-radius:50%;background:var(--bg);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.55);transition:all .3s cubic-bezier(.23,1,.32,1);position:relative;overflow:hidden;padding:0}
 .fab svg{transition:transform .35s cubic-bezier(.23,1,.32,1)}
-.fab-icon{width:34px;height:34px;object-fit:contain;transition:transform .35s cubic-bezier(.23,1,.32,1);pointer-events:none}
-.fab:hover{transform:scale(1.08);box-shadow:0 10px 36px rgba(245,200,66,.55)}
-.fab.open{background:var(--g3);box-shadow:0 10px 32px rgba(245,200,66,.55)}
+.fab-icon{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s cubic-bezier(.23,1,.32,1);pointer-events:none}
+.fab:hover{transform:scale(1.06);box-shadow:0 14px 38px rgba(0,0,0,.65)}
+.fab.open{background:var(--s2);box-shadow:0 14px 34px rgba(0,0,0,.6)}
 .fab.open svg,.fab.open .fab-icon{transform:scale(0.9)}
 .fab-tip{position:absolute;right:62px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.85);color:#fff;font-size:11px;font-weight:600;padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;font-family:'Inter',sans-serif}
 .fab:hover .fab-tip{opacity:1}
@@ -182,6 +182,9 @@ section{padding:96px 0}
 .ferr{font-size:11px;color:#f87171;margin-top:4px;font-weight:500}
 .sbtn{width:100%;margin-top:18px;padding:13px;background:var(--g2);color:#0a0a0a;border:none;border-radius:99px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;transition:all .3s;box-shadow:0 4px 24px rgba(245,200,66,.25);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px}
 .sbtn:hover{background:var(--g3);transform:translateY(-2px);box-shadow:0 10px 32px rgba(245,200,66,.4)}
+.copybtn{width:100%;margin-top:10px;padding:11px;background:transparent;border:1px solid var(--bd);color:var(--t2);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;border-radius:99px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.copybtn:hover{border-color:var(--g2);color:var(--g2)}
+.copybtn.copied{border-color:#25d366;color:#25d366}
 .wanote{font-size:11px;color:var(--t3);text-align:center;margin-top:10px}
 .wanote strong{color:var(--g2)}
 @media(max-width:900px){.req-l{grid-template-columns:1fr;gap:40px}.req-side{position:static}.frow{grid-template-columns:1fr}}
@@ -285,7 +288,7 @@ footer{background:#000;border-top:1px solid var(--bd);padding:44px 0;text-align:
   </div>
   <button class="fab" id="fab">
     <span class="fab-tip">Contact Martin</span>
-    <img class="fab-icon" src="https://github.com/XmarksthespotAquatics/MartinXIV/blob/570457f73f8af27d31ae11d5fb92e90b2d01d021/Pop_up_Martin-removebg-preview.png?raw=true" alt="" onerror="this.style.display='none'"/>
+    <img class="fab-icon" src="https://github.com/XmarksthespotAquatics/MartinXIV/blob/e5074dcc739f20695918cb4450c071ff43cf877f/ChatGPT%20Image%20Jul%2029%2C%202026%2C%2010_28_45%20AM.png?raw=true" alt="" onerror="this.style.display='none'"/>
   </button>
 </div>
 
@@ -402,7 +405,8 @@ footer{background:#000;border-top:1px solid var(--bd);padding:44px 0;text-align:
             <svg width="16" height="16" viewBox="0 0 24 24" fill="#0a0a0a"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.615 4.469 8.652V24l4.088-2.242c1.092.302 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111C24 4.974 18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z"/></svg>
             Message Martin on Facebook
           </button>
-          <div class="wanote">💬 Opens <strong>Messenger</strong> with your request pre-filled — just press send.</div>
+          <button class="copybtn" id="copyBtn" type="button">📋 Copy message instead</button>
+          <div class="wanote">💬 Opens <strong>Messenger</strong> with your request pre-filled. On desktop, if it doesn't auto-fill, use "Copy message" and paste it in.</div>
         </div>
       </div>
     </div>
@@ -535,7 +539,8 @@ var FAQS = [
   {q:"How do I pay?", a:"Payment is arranged directly with Martin once your order and shipping details are confirmed — he'll walk you through the available options in Messenger."},
   {q:"What if a fish arrives dead or in poor condition (DOA)?", a:"If anything ever arrives dead on arrival, message Martin right away with clear photos or video of the sealed, unopened bag before releasing the fish — he'll go over your options with you directly."},
   {q:"What if the strain I want isn't available right now?", a:"Message Martin anyway — he can let you know when it's back in stock, or suggest a close alternative from the current line-up."},
-  {q:"Can I order in bulk or as a reseller?", a:"Yes — message Martin directly with the quantity and strains you're after and he'll work out pricing and availability with you."}
+  {q:"Can I order in bulk or as a reseller?", a:"Yes — message Martin directly with the quantity and strains you're after and he'll work out pricing and availability with you."},
+  {q:"What water parameters do balloon mollies need?", a:"As a general guide, balloon mollies do best in slightly hard, alkaline water — pH around 7.5–8.5, temperature 24–28°C (75–82°F) — and they tolerate a small amount of aquarium salt well since they're brackish-tolerant. Ask Martin for his specific acclimation steps when your fish arrive."}
 ];
 
 /* ── PARTICLES ── */
@@ -617,6 +622,36 @@ document.addEventListener("click", function(e) {
   });
 })();
 
+/* ── REQUEST FORM DRAFT (auto-save so mobile Messenger hand-off doesn't lose it) ── */
+var DRAFT_KEY = "himakas_request_draft";
+function saveDraft() {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({
+      strain:  document.getElementById("s_strain").value,
+      qty:     document.getElementById("s_qty").value,
+      country: document.getElementById("s_country").value,
+      notes:   document.getElementById("s_notes").value
+    }));
+  } catch (e) { /* localStorage unavailable — fail silently, feature is a nicety */ }
+}
+function loadDraft() {
+  try {
+    var raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return;
+    var d = JSON.parse(raw);
+    if (d.strain)  document.getElementById("s_strain").value  = d.strain;
+    if (d.qty)     document.getElementById("s_qty").value     = d.qty;
+    if (d.country) document.getElementById("s_country").value = d.country;
+    if (d.notes)   document.getElementById("s_notes").value   = d.notes;
+  } catch (e) { /* localStorage unavailable or bad data — ignore */ }
+}
+loadDraft();
+["s_strain", "s_qty", "s_country", "s_notes"].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener("input", saveDraft);
+});
+document.getElementById("s_strain").addEventListener("change", saveDraft);
+
 /* ── FILTERS + STRAIN GRID ── */
 var curCat = "all";
 function buildFilters() {
@@ -684,10 +719,11 @@ function pickStrain(v) {
   for (var i = 0; i < sel.options.length; i++) {
     if (sel.options[i].value === v) { sel.selectedIndex = i; break; }
   }
+  saveDraft();
   document.getElementById("request").scrollIntoView({behavior:"smooth", block:"start"});
 }
 
-document.getElementById("sendBtn").addEventListener("click", function() {
+function buildRequestMessage() {
   var strain  = document.getElementById("s_strain").value || "one of your strains (not sure which yet)";
   var qty     = document.getElementById("s_qty").value || "1";
   var country = document.getElementById("s_country").value.trim();
@@ -696,9 +732,48 @@ document.getElementById("sendBtn").addEventListener("click", function() {
   var msg = "Hi Martin! I'd like to request " + qty + " of the " + strain + " (Himakas) — is it available?";
   if (country) msg += " I'm located in " + country + ".";
   if (notes) msg += " Notes: " + notes;
+  return msg;
+}
 
-  window.open(MSGR_BASE + "?text=" + encodeURIComponent(msg), "_blank");
+document.getElementById("sendBtn").addEventListener("click", function() {
+  saveDraft();
+  window.open(MSGR_BASE + "?text=" + encodeURIComponent(buildRequestMessage()), "_blank");
 });
+
+/* ── COPY MESSAGE FALLBACK (desktop Web Messenger sometimes ignores the ?text= prefill) ── */
+function fallbackCopy(text, cb) {
+  try {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    cb();
+  } catch (e) { /* clipboard unavailable — nothing more we can do */ }
+}
+var copyBtn = document.getElementById("copyBtn");
+if (copyBtn) {
+  copyBtn.addEventListener("click", function() {
+    saveDraft();
+    var msg = buildRequestMessage();
+    function showCopied() {
+      copyBtn.textContent = "✅ Copied — paste it in Messenger";
+      copyBtn.classList.add("copied");
+      setTimeout(function() {
+        copyBtn.textContent = "📋 Copy message instead";
+        copyBtn.classList.remove("copied");
+      }, 2200);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(msg).then(showCopied).catch(function() { fallbackCopy(msg, showCopied); });
+    } else {
+      fallbackCopy(msg, showCopied);
+    }
+  });
+}
 </script>
 </body>
 </html>
